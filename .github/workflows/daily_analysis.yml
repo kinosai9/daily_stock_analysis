@@ -164,6 +164,12 @@ jobs:
           MARKET_REVIEW_ENABLED: ${{ vars.MARKET_REVIEW_ENABLED || secrets.MARKET_REVIEW_ENABLED || 'true' }}
           ANALYSIS_DELAY: ${{ vars.ANALYSIS_DELAY || secrets.ANALYSIS_DELAY || '0' }}
           TRADING_DAY_CHECK_ENABLED: ${{ vars.TRADING_DAY_CHECK_ENABLED || secrets.TRADING_DAY_CHECK_ENABLED || 'true' }}
+
+          AGENT_ARCH: ${{ vars.AGENT_ARCH || secrets.AGENT_ARCH || 'multi' }}
+          AGENT_ORCHESTRATOR_MODE: ${{ vars.AGENT_ORCHESTRATOR_MODE || secrets.AGENT_ORCHESTRATOR_MODE || 'full' }}
+          AGENT_SKILLS: ${{ vars.AGENT_SKILLS || secrets.AGENT_SKILLS }}
+          OUTPUT_FORMAT: ${{ vars.OUTPUT_FORMAT || secrets.OUTPUT_FORMAT || 'structured' }}
+          TIMEZONE: ${{ vars.TIMEZONE || secrets.TIMEZONE || 'Asia/Shanghai' }}
           
           # ==========================================
           # 系统配置
