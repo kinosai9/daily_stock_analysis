@@ -155,6 +155,8 @@ jobs:
           # ==========================================
           STOCK_LIST: ${{ vars.STOCK_LIST || secrets.STOCK_LIST || '600519' }}
           MARKET_REVIEW_REGION: ${{ vars.MARKET_REVIEW_REGION || secrets.MARKET_REVIEW_REGION || 'cn' }}
+
+          CUSTOM_ANALYSIS_PROMPT: ${{ vars.CUSTOM_ANALYSIS_PROMPT }}
           
           # ==========================================
           # 运行配置 ⬅️ 新增！
