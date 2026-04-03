@@ -1,0 +1,108 @@
+name: 每日股票分析 - 晚班
+
+on:
+  # 定时触发 - 每天北京时间 19:00 (UTC 11:00)
+  schedule:
+    - cron: '0 11 * * 1-5'     # 周一到周五，UTC 11:00 = 北京时间 19:00
+
+  # 手动触发
+  workflow_dispatch:
+
+concurrency:
+  group: stock-analysis-evening
+  cancel-in-progress: false
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: 随机延迟（避免固定时间访问）
+        run: sleep $((RANDOM % 60))  # 随机延迟 0-60 秒启动
+
+      - name: 检出代码
+        uses: actions/checkout@v5
+
+      - name: 设置 Python 环境
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: 安装依赖
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: 创建必要目录
+        run: |
+          mkdir -p data logs reports
+
+      - name: 执行股票分析（晚班）
+        env:
+          # ==========================================
+          # AI 配置 - 复用主任务
+          # ==========================================
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_MODEL: ${{ vars.GEMINI_MODEL || 'gemini-2.5-flash' }}
+
+          # 搜索服务
+          TAVILY_API_KEYS: ${{ secrets.TAVILY_API_KEYS }}
+
+          # ==========================================
+          # 晚班独立股票列表
+          # ==========================================
+          STOCK_LIST: ${{ secrets.EVENING_STOCK_LIST }}
+
+          # ==========================================
+          # 通知渠道 - 仅 PushPlus
+          # ==========================================
+          PUSHPLUS_TOKEN: ${{ secrets.PUSHPLUS_TOKEN }}
+
+          # ==========================================
+          # 运行配置 - 晚班简化模式
+          # ==========================================
+          REPORT_TYPE: 'simple'
+          MARKET_REVIEW_ENABLED: 'false'
+          SINGLE_STOCK_NOTIFY: 'false'
+
+          # 系统配置
+          LOG_LEVEL: INFO
+          REALTIME_SOURCE_PRIORITY: 'tencent,akshare_sina,efinance,akshare_em'
+
+        run: |
+          echo "=========================================="
+          echo "🌙 晚班股票分析任务"
+          echo "=========================================="
+          echo "⏰ 时间：$(TZ='Asia/Shanghai' date '+%Y-%m-%d %H:%M:%S')"
+          echo "📊 股票列表：$STOCK_LIST"
+          echo "📝 报告类型：$REPORT_TYPE"
+          echo "🔔 推送渠道：PushPlus"
+          echo "=========================================="
+
+          python main.py
+
+      - name: 上传分析报告
+        uses: actions/upload-artifact@v6
+        if: always()
+        with:
+          name: evening-analysis-reports-${{ github.run_number }}
+          path: |
+            reports/
+            logs/
+          retention-days: 30
+
+      - name: 显示运行结果
+        if: always()
+        run: |
+          echo ""
+          echo "=========================================="
+          echo "🌙 晚班分析完成"
+          echo "=========================================="
+          if [ -d "reports" ] && [ "$(ls -A reports 2>/dev/null)" ]; then
+            echo "生成的报告:"
+            ls -la reports/
+          else
+            echo "⚠️ 未生成报告文件"
+          fi
