@@ -53,8 +53,8 @@ jobs:
           # ==========================================
           # 晚班独立股票列表
           # ==========================================
-          # 注意：EVENING_STOCK_LIST 配置在 GitHub Variables 中（明文，方便修改）
-          STOCK_LIST: ${{ vars.EVENING_STOCK_LIST }}
+          # 优先从 Variables 读取（明文，方便修改）；如已配置在 Secrets 则兼容读取
+          STOCK_LIST: ${{ vars.EVENING_STOCK_LIST || secrets.EVENING_STOCK_LIST }}
 
           # ==========================================
           # 通知渠道 - 仅 PushPlus

@@ -162,6 +162,7 @@ jobs:
           # ==========================================
           # 自选股配置
           # ==========================================
+          # 优先从 Variables 读取（明文，方便修改）；如已配置在 Secrets 则兼容读取
           STOCK_LIST: ${{ vars.STOCK_LIST || secrets.STOCK_LIST || '600519' }}
           MARKET_REVIEW_REGION: ${{ vars.MARKET_REVIEW_REGION || secrets.MARKET_REVIEW_REGION || 'cn' }}
           
