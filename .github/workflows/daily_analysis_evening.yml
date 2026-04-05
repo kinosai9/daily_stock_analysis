@@ -53,7 +53,8 @@ jobs:
           # ==========================================
           # 晚班独立股票列表
           # ==========================================
-          STOCK_LIST: ${{ secrets.EVENING_STOCK_LIST }}
+          # 注意：EVENING_STOCK_LIST 配置在 GitHub Variables 中（明文，方便修改）
+          STOCK_LIST: ${{ vars.EVENING_STOCK_LIST }}
 
           # ==========================================
           # 通知渠道 - 仅 PushPlus
@@ -66,6 +67,9 @@ jobs:
           REPORT_TYPE: 'simple'
           MARKET_REVIEW_ENABLED: 'false'
           SINGLE_STOCK_NOTIFY: 'false'
+          TRADING_DAY_CHECK_ENABLED: 'true'
+          ANALYSIS_DELAY: '0'
+          MARKET_REVIEW_REGION: 'cn'
 
           # 系统配置
           LOG_LEVEL: INFO
