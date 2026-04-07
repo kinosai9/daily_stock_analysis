@@ -11,7 +11,15 @@ Track merges from upstream repository `ZhuLinsen/daily_stock_analysis`.
 - Secrets configured:
   - `STOCK_LIST` - Main task stock list
   - `EVENING_STOCK_LIST` - Evening task stock list
-  - `PUSHPLUS_TOKEN` - PushPlus notification token
+  - `PUSHPLUS_TOKEN` - PushPlus notification token (evening only)
+
+---
+
+## [2026-04-07] PushPlus Configuration Update
+
+- **Removed** `PUSHPLUS_TOKEN` from main workflow (`daily_analysis.yml`)
+- **Purpose**: Isolate PushPlus notifications for evening task only
+- **Note**: After upstream sync, verify main workflow does not re-add PushPlus config
 
 ---
 
