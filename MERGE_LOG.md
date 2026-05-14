@@ -23,9 +23,17 @@ Track merges from upstream repository `ZhuLinsen/daily_stock_analysis`.
 
 ---
 
-## [Pending] Upstream Sync
+## [2026-05-14] Upstream Sync
 
 - Merged from: `ZhuLinsen/daily_stock_analysis@main`
-- Upstream commit: [待填写]
-- Changes: [待填写]
-- Sync branch: [待填写]
+- Upstream commit: `60d8211` (docs: close notification issue 1200)
+- Our HEAD before merge: `0b3b2e1` (Update daily_analysis_evening.yml)
+- 114 commits behind, merged cleanly with 1 conflict in `daily_analysis.yml`
+- Conflict resolution:
+  - Accepted upstream: ntfy, Gotify notification channels (new features)
+  - Re-removed: `PUSHPLUS_TOKEN` from main workflow (per config protection policy — evening task only)
+  - Preserved: `daily_analysis_evening.yml`, `MERGE_LOG.md` (upstream deleted, ours kept)
+- Sync branch: none (direct merge to main)
+- Verified: evening workflow intact, SKILL.md auto-merged with updated import paths
+
+## [2026-04-07] PushPlus Configuration Update
