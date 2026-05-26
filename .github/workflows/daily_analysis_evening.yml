@@ -261,12 +261,13 @@ jobs:
           SEARXNG_PUBLIC_INSTANCES_ENABLED: ${{ vars.SEARXNG_PUBLIC_INSTANCES_ENABLED || secrets.SEARXNG_PUBLIC_INSTANCES_ENABLED }}
 
           # ==========================================
-          # 通知渠道 - 晚班：PushPlus + 钉钉（通过 CUSTOM_WEBHOOK）
+          # 通知渠道 - 晚班：PushPlus + 自定义 Webhook（含钉钉）
+          # 钉钉机器人通过 CUSTOM_WEBHOOK_URLS 配置，系统自动识别 oapi.dingtalk.com URL 并按钉钉格式推送
           # ==========================================
           PUSHPLUS_TOKEN: ${{ secrets.PUSHPLUS_TOKEN }}
           PUSHPLUS_TOPIC: ${{ vars.PUSHPLUS_TOPIC || secrets.PUSHPLUS_TOPIC }}
 
-          # 钉钉机器人（通过自定义 Webhook，URL 包含 oapi.dingtalk.com 即自动识别）
+          # 自定义 Webhook（钉钉、Bark、自建服务等，URL 含 dingtalk 自动适配钉钉格式）
           CUSTOM_WEBHOOK_URLS: ${{ secrets.CUSTOM_WEBHOOK_URLS }}
           CUSTOM_WEBHOOK_BEARER_TOKEN: ${{ secrets.CUSTOM_WEBHOOK_BEARER_TOKEN }}
           CUSTOM_WEBHOOK_BODY_TEMPLATE: ${{ vars.CUSTOM_WEBHOOK_BODY_TEMPLATE || secrets.CUSTOM_WEBHOOK_BODY_TEMPLATE }}
@@ -315,7 +316,7 @@ jobs:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
           SLACK_CHANNEL_ID: ${{ secrets.SLACK_CHANNEL_ID }}
 
-          # 通知路由策略（晚班默认 PushPlus + 钉钉，可通过 Variables 灵活切换）
+          # 通知路由策略（晚班默认 PushPlus + 自定义 Webhook，可通过 Variables 灵活切换）
           NOTIFICATION_REPORT_CHANNELS: ${{ vars.EVENING_NOTIFICATION_REPORT_CHANNELS || vars.NOTIFICATION_REPORT_CHANNELS || secrets.NOTIFICATION_REPORT_CHANNELS }}
           NOTIFICATION_ALERT_CHANNELS: ${{ vars.EVENING_NOTIFICATION_ALERT_CHANNELS || vars.NOTIFICATION_ALERT_CHANNELS || secrets.NOTIFICATION_ALERT_CHANNELS }}
           NOTIFICATION_SYSTEM_ERROR_CHANNELS: ${{ vars.EVENING_NOTIFICATION_SYSTEM_ERROR_CHANNELS || vars.NOTIFICATION_SYSTEM_ERROR_CHANNELS || secrets.NOTIFICATION_SYSTEM_ERROR_CHANNELS }}
@@ -419,7 +420,7 @@ jobs:
           echo ""
           echo "【通知渠道】"
           echo "  PushPlus: $([ -n "$PUSHPLUS_TOKEN" ] && echo '✅ 已配置' || echo '⚪ 未配置')"
-          echo "  钉钉(Custom Webhook): $([ -n "$CUSTOM_WEBHOOK_URLS" ] && echo '✅ 已配置' || echo '⚪ 未配置')"
+          echo "  自定义Webhook(含钉钉): $([ -n "$CUSTOM_WEBHOOK_URLS" ] && echo '✅ 已配置' || echo '⚪ 未配置')"
           echo "  ntfy: $([ -n "$NTFY_URL" ] && echo '✅ 已配置' || echo '⚪ 未配置')"
           echo "  Gotify: $([ -n "$GOTIFY_URL" ] && [ -n "$GOTIFY_TOKEN" ] && echo '✅ 已配置' || echo '⚪ 未配置')"
           echo "  企业微信: $([ -n "$WECHAT_WEBHOOK_URL" ] && echo '✅ 已配置' || echo '⚪ 未配置')"
