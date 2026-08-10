@@ -14,13 +14,14 @@ from fastapi import APIRouter
 from api.v1.endpoints import (
     agent,
     alerts,
-    alphasift,
+    screening,
     analysis,
     auth,
     backtest,
     decision_signals,
     health,
     history,
+    intelligence,
     portfolio,
     stocks,
     system_config,
@@ -98,9 +99,15 @@ router.include_router(
 )
 
 router.include_router(
-    alphasift.router,
-    prefix="/alphasift",
-    tags=["AlphaSift"]
+    screening.router,
+    prefix="/screening",
+    tags=["Screening"]
+)
+
+router.include_router(
+    intelligence.router,
+    prefix="/intelligence",
+    tags=["Intelligence"]
 )
 
 router.include_router(
